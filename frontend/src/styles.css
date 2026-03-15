@@ -130,6 +130,15 @@ main {
   cursor: not-allowed;
 }
 
+.demo-banner {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px dashed var(--accent);
+  font-weight: 600;
+}
+
 .form {
   display: flex;
   flex-direction: column;
