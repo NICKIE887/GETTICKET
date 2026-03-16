@@ -183,6 +183,23 @@ main {
   font-weight: 600;
 }
 
+.disclaimer {
+  background: #f9fafb;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.delivery {
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .form {
   display: flex;
   flex-direction: column;

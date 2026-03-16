@@ -64,6 +64,7 @@ def stk_push(
         user_id=current_user.id,
         code=generate_ticket_code(),
         status="pending",
+        contact_phone=payload.phone,
     )
     db.add(ticket)
     db.commit()
@@ -95,6 +96,7 @@ def stk_push(
         "ticket": TicketOut.model_validate(ticket).model_dump(),
         "payment": PaymentOut.model_validate(payment).model_dump(),
         "mpesa": mpesa_response,
+        "delivery": {"status": "pending"},
     }
 
 

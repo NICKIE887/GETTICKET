@@ -1,9 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session, joinedload
-from ..auth import get_current_user
+from ..auth import get_current_user, get_optional_user
 from ..db import get_db
 from ..models import Ticket
-from ..schemas import PaginatedTickets, Pagination, TicketOut, TicketPublicOut
+from ..schemas import (
+    PaginatedTickets,
+    Pagination,
+    TicketDeliveryOut,
+    TicketDeliveryRequest,
+    TicketOut,
+    TicketPublicOut,
+)
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
 
@@ -58,3 +65,31 @@ def get_public_ticket(
     if not ticket or ticket.code != code:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
     return ticket
+
+
+@router.post("/{ticket_id}/deliver", response_model=TicketDeliveryOut)
+def deliver_ticket(
+    ticket_id: int,
+    payload: TicketDeliveryRequest,
+    code: str | None = Query(default=None, min_length=6),
+    db: Session = Depends(get_db),
+    current_user=Depends(get_optional_user),
+):
+    ticket = db.query(Ticket).filter(Ticket.id == ticket_id).first()
+    if not ticket:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
+
+    if current_user:
+        if ticket.user_id != current_user.id:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
+    else:
+        if not code or ticket.code != code:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
+
+    if payload.phone:
+        ticket.contact_phone = payload.phone
+    if payload.email:
+        ticket.contact_email = payload.email
+    db.commit()
+
+    return TicketDeliveryOut(status="queued")

@@ -85,6 +85,15 @@ class TicketPublicOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class TicketDeliveryRequest(BaseModel):
+    phone: str | None = None
+    email: str | None = None
+
+
+class TicketDeliveryOut(BaseModel):
+    status: str
+
+
 class PaymentOut(BaseModel):
     id: int
     ticket_id: int

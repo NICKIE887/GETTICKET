@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from .db import Base
 
@@ -61,6 +61,8 @@ class Ticket(Base):
     code = Column(String(64), unique=True, index=True, nullable=False)
     status = Column(String(20), nullable=False, default="pending")
     checked_in_at = Column(DateTime, nullable=True)
+    contact_phone = Column(String(20), nullable=True)
+    contact_email = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=utcnow, nullable=False)
 
     event = relationship("Event", back_populates="tickets")
