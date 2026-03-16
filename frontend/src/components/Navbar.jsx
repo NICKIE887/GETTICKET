@@ -12,7 +12,7 @@ export default function Navbar() {
   return (
     <header className="nav">
       <div className="nav__brand">
-        <Link to="/">Evently</Link>
+        <Link to="/">GETTICKET</Link>
       </div>
       <nav className="nav__links">
         <Link to="/">Events</Link>
