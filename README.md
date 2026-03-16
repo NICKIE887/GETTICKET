@@ -1,4 +1,4 @@
-# Event Ticketing
+# GETTICKET
 
 ![Deployment Status](https://github.com/NICKIE887/GETTICKET/actions/workflows/static.yml/badge.svg)
 
@@ -37,6 +37,23 @@ Your URL will be:
 ## Demo Mode
 
 When the frontend cannot reach the backend API, the Events page falls back to demo events so the homepage is not empty. This is automatic and only affects the events list view.
+
+## Database Migration (Safe)
+
+The backend auto-applies safe SQLite migrations at startup for newly added columns such as:
+- `events.image_url`
+- `tickets.contact_phone`
+- `tickets.contact_email`
+
+No manual migration is required for local use.
+
+## Image Uploads
+
+Event images can be uploaded directly to the backend.
+
+- Endpoint: `POST /uploads/event-image`
+- Requires login
+- Returns a public URL like `http://localhost:8000/uploads/<file>`
 
 ## Deploy the Backend (FastAPI)
 

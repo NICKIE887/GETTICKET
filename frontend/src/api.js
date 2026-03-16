@@ -34,3 +34,26 @@ export async function apiFetch(path, options = {}) {
   }
   return response.json();
 }
+
+export async function apiUpload(path, file) {
+  const token = getToken();
+  const form = new FormData();
+  form.append("file", file);
+
+  const headers = new Headers();
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
+  const response = await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers,
+    body: form
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Upload failed");
+  }
+  return response.json();
+}

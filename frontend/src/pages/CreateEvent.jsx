@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiFetch } from "../api";
+import { apiFetch, apiUpload } from "../api";
 
 export default function CreateEvent() {
   const [form, setForm] = useState({
@@ -10,6 +10,8 @@ export default function CreateEvent() {
     start_time: "",
     end_time: ""
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [imageMessage, setImageMessage] = useState("");
   const [eventId, setEventId] = useState(null);
   const [message, setMessage] = useState("");
   const [ticketType, setTicketType] = useState({
@@ -20,6 +22,18 @@ export default function CreateEvent() {
 
   const handleChange = (field) => (event) => {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
+  const handleUpload = async () => {
+    if (!imageFile) return;
+    setImageMessage("Uploading image...");
+    try {
+      const response = await apiUpload("/uploads/event-image", imageFile);
+      setForm((prev) => ({ ...prev, image_url: response.url }));
+      setImageMessage("Image uploaded.");
+    } catch (error) {
+      setImageMessage("Image upload failed. Make sure you're logged in.");
+    }
   };
 
   const handleCreateEvent = async (event) => {
@@ -82,6 +96,19 @@ export default function CreateEvent() {
           Image URL
           <input value={form.image_url} onChange={handleChange("image_url")} placeholder="https://..." />
         </label>
+        <label className="field">
+          Or upload an image
+          <input type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+        </label>
+        <button className="btn btn--ghost" type="button" onClick={handleUpload} disabled={!imageFile}>
+          Upload image
+        </button>
+        {imageMessage ? <p className="muted">{imageMessage}</p> : null}
+        {form.image_url ? (
+          <div className="image-preview">
+            <img src={form.image_url} alt="Event" />
+          </div>
+        ) : null}
         <label className="field">
           Location
           <input value={form.location} onChange={handleChange("location")} />
