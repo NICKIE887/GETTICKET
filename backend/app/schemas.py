@@ -27,6 +27,7 @@ class TokenOut(BaseModel):
 class EventCreate(BaseModel):
     title: str
     description: str | None = None
+    image_url: str | None = None
     location: str | None = None
     start_time: datetime
     end_time: datetime
@@ -36,6 +37,7 @@ class EventOut(BaseModel):
     id: int
     title: str
     description: str | None
+    image_url: str | None
     location: str | None
     start_time: datetime
     end_time: datetime

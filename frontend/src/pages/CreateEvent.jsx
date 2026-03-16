@@ -5,6 +5,7 @@ export default function CreateEvent() {
   const [form, setForm] = useState({
     title: "",
     description: "",
+    image_url: "",
     location: "",
     start_time: "",
     end_time: ""
@@ -76,6 +77,10 @@ export default function CreateEvent() {
         <label className="field">
           Description
           <textarea value={form.description} onChange={handleChange("description")} rows="4" />
+        </label>
+        <label className="field">
+          Image URL
+          <input value={form.image_url} onChange={handleChange("image_url")} placeholder="https://..." />
         </label>
         <label className="field">
           Location

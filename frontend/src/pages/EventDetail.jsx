@@ -113,6 +113,9 @@ export default function EventDetail() {
 
       <div className="detail">
         <div className="detail__info">
+          <div className="detail__media">
+            <img src={event.image_url || "/event-placeholder.svg"} alt={event.title} />
+          </div>
           <h3>About the event</h3>
           <p>{event.description || "No description provided."}</p>
 

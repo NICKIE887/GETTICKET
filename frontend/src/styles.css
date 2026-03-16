@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap");
 
 :root {
   color-scheme: light;
@@ -15,6 +15,8 @@
   --shadow-soft: 0 8px 20px rgba(31, 31, 31, 0.06);
   --warning: #b45309;
   --warning-soft: #fef3c7;
+  --font-heading: "Playfair Display", "Source Sans 3", "Segoe UI", serif;
+  --font-body: "Source Sans 3", "Playfair Display", "Segoe UI", sans-serif;
 }
 
 * {
@@ -23,7 +25,7 @@
 
 body {
   margin: 0;
-  font-family: "Space Grotesk", "Manrope", "Segoe UI", Tahoma, sans-serif;
+  font-family: var(--font-body);
   background: radial-gradient(circle at top left, #fefcf9 0%, #f6f4f0 55%, #efe9e2 100%);
   color: var(--text);
 }
@@ -93,6 +95,16 @@ main {
   font-size: clamp(1.8rem, 2vw + 1rem, 2.4rem);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.015em;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -108,11 +120,26 @@ main {
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
+}
+
+.card__media {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .card__body {
@@ -240,6 +267,28 @@ main {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail__media {
+  width: 100%;
+  height: 240px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.detail__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .detail__purchase {
@@ -386,6 +435,14 @@ main {
   .page__header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .card__media {
+    height: 180px;
+  }
+
+  .detail__media {
+    height: 200px;
   }
 }
 

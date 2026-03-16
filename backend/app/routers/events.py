@@ -34,6 +34,7 @@ def create_event(
     event = Event(
         title=payload.title,
         description=payload.description,
+        image_url=payload.image_url,
         location=payload.location,
         start_time=payload.start_time,
         end_time=payload.end_time,

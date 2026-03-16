@@ -7,6 +7,7 @@ const DEMO_EVENTS = [
     id: 101,
     title: "Nairobi Night Live",
     description: "Live performances and DJ sets under the city lights.",
+    image_url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1200&q=80",
     location: "KICC Rooftop",
     start_time: "2026-06-20T18:00:00Z",
     end_time: "2026-06-20T23:00:00Z",
@@ -16,6 +17,7 @@ const DEMO_EVENTS = [
     id: 102,
     title: "Tech & Tastes Expo",
     description: "A showcase of local startups, demos, and tasting booths.",
+    image_url: "https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=1200&q=80",
     location: "Sarit Expo Centre",
     start_time: "2026-07-05T08:00:00Z",
     end_time: "2026-07-05T16:00:00Z",
@@ -25,6 +27,7 @@ const DEMO_EVENTS = [
     id: 103,
     title: "Coastal Sunset Festival",
     description: "Beachfront music, food trucks, and artisan markets.",
+    image_url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     location: "Nyali Beach",
     start_time: "2026-08-02T14:00:00Z",
     end_time: "2026-08-02T22:30:00Z",
@@ -82,6 +85,9 @@ export default function EventsPage() {
       <div className="grid">
         {events.map((event) => (
           <article className="card" key={event.id}>
+            <div className="card__media">
+              <img src={event.image_url || "/event-placeholder.svg"} alt={event.title} loading="lazy" />
+            </div>
             <div className="card__body">
               <h3>{event.title}</h3>
               <p className="muted">

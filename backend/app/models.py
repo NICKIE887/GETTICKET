@@ -26,6 +26,7 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     description = Column(String(2000), nullable=True)
+    image_url = Column(String(500), nullable=True)
     location = Column(String(200), nullable=True)
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=False)
