@@ -72,6 +72,19 @@ class TicketOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class TicketPublicOut(BaseModel):
+    id: int
+    event_id: int
+    ticket_type_id: int
+    code: str
+    status: str
+    checked_in_at: datetime | None
+    created_at: datetime
+    ticket_type: TicketTypeOut | None = None
+    event: EventOut | None = None
+    model_config = ConfigDict(from_attributes=True)
+
+
 class PaymentOut(BaseModel):
     id: int
     ticket_id: int

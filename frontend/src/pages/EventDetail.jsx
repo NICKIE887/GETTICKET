@@ -45,10 +45,14 @@ export default function EventDetail() {
           phone
         })
       });
-      setTicketId(response.ticket?.id);
-      setMessage("Payment request sent. After approval, your ticket will be ready.");
+      const ticket = response.ticket;
+      if (ticket?.id && ticket?.code) {
+        localStorage.setItem(`ticket_code_${ticket.id}`, ticket.code);
+        setTicketId(ticket.id);
+      }
+      setMessage("Payment request sent. Save your ticket code to retrieve it later.");
     } catch (error) {
-      setMessage("Payment failed. Ensure you are logged in and try again.");
+      setMessage("Payment failed. Try again shortly.");
     } finally {
       setLoading(false);
     }

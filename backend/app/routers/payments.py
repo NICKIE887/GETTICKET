@@ -1,8 +1,9 @@
+import secrets
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from ..auth import get_current_user
+from ..auth import get_optional_user, hash_password
 from ..db import get_db
-from ..models import Event, Payment, Ticket, TicketType
+from ..models import Event, Payment, Ticket, TicketType, User
 from ..mpesa import initiate_stk_push
 from ..schemas import PaymentOut, StkPushRequest, TicketOut
 from ..utils import generate_ticket_code
@@ -17,11 +18,27 @@ def _capacity_available(db: Session, ticket_type: TicketType) -> bool:
     return issued < ticket_type.capacity
 
 
+def _get_or_create_guest_user(db: Session, phone: str) -> User:
+    digits = "".join(ch for ch in phone if ch.isdigit())
+    if not digits:
+        digits = secrets.token_hex(4)
+    email = f"guest+{digits}@getticker.local"
+    existing = db.query(User).filter(User.email == email).first()
+    if existing:
+        return existing
+
+    user = User(email=email, password_hash=hash_password(secrets.token_urlsafe(16)))
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
 @router.post("/stk-push")
 def stk_push(
     payload: StkPushRequest,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user=Depends(get_optional_user),
 ):
     event = db.query(Event).filter(Event.id == payload.event_id).first()
     if not event:
@@ -37,6 +54,9 @@ def stk_push(
 
     if not _capacity_available(db, ticket_type):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Ticket type is sold out")
+
+    if not current_user:
+        current_user = _get_or_create_guest_user(db, payload.phone)
 
     ticket = Ticket(
         event_id=event.id,

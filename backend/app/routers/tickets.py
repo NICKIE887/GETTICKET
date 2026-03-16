@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session, joinedload
 from ..auth import get_current_user
 from ..db import get_db
 from ..models import Ticket
-from ..schemas import PaginatedTickets, Pagination, TicketOut
+from ..schemas import PaginatedTickets, Pagination, TicketOut, TicketPublicOut
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
 
@@ -39,5 +39,22 @@ def get_ticket(ticket_id: int, db: Session = Depends(get_db), current_user=Depen
         .first()
     )
     if not ticket:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
+    return ticket
+
+
+@router.get("/public/{ticket_id}", response_model=TicketPublicOut)
+def get_public_ticket(
+    ticket_id: int,
+    code: str = Query(..., min_length=6),
+    db: Session = Depends(get_db),
+):
+    ticket = (
+        db.query(Ticket)
+        .options(joinedload(Ticket.ticket_type), joinedload(Ticket.event))
+        .filter(Ticket.id == ticket_id)
+        .first()
+    )
+    if not ticket or ticket.code != code:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ticket not found")
     return ticket
