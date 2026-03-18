@@ -5,9 +5,1196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GETTICKET</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg: #f5f1e6;
+  --surface: #ffffff;
+  --surface-muted: #f3efe5;
+  --text: #1f2422;
+  --muted: #5f6663;
+  --accent: #0a7f5a;
+  --accent-strong: #086347;
+  --accent-soft: #d5f3e8;
+  --border: #d6d2c8;
+  --shadow: 0 18px 40px rgba(20, 32, 28, 0.14);
+  --shadow-soft: 0 8px 20px rgba(20, 32, 28, 0.1);
+  --warning: #b9922a;
+  --warning-soft: #f6e8c7;
+  --gold: #FDD835;
+  --gold-strong: #E0B800;
+  --gold-soft: #FFF3B0;
+  --grey-strong: #4c5451;
+  --grey-soft: #c9c6bd;
+  --font-heading: "Playfair Display", "Source Sans 3", "Segoe UI", serif;
+  --font-body: "Source Sans 3", "Playfair Display", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: radial-gradient(circle at top left, #fff9e8 0%, var(--bg) 55%, #ece6d8 100%);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+main {
+  padding: 32px 20px 80px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.nav__brand {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.nav__links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeUp 0.4s ease;
+}
+
+.page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.015em;
+}
+
+.hero {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  background: linear-gradient(130deg, rgba(255, 255, 255, 0.95), rgba(244, 239, 232, 0.9));
+  border-radius: 28px;
+  padding: 32px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow);
+}
+
+.hero__kicker {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+  color: var(--gold-strong);
+}
+
+.hero__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+
+.hero__search {
+  display: flex;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 999px;
+  padding: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.hero__search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.hero__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero__card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero__stat {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.hero__highlight {
+  background: var(--gold-soft);
+  border-radius: 20px;
+  padding: 16px;
+  font-weight: 600;
+  color: var(--grey-strong);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.section__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chips {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  border: 1px solid var(--grey-soft);
+  color: var(--grey-strong);
+  font-weight: 600;
+}
+
+.artist-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.artist-card {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.artist-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--grey-strong);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.steps {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.step {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.testimonial-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.testimonial {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid var(--grey-soft);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cta__form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cta__form input {
+  flex: 1;
+  min-width: 220px;
+  border-radius: 999px;
+  border: 1px solid var(--grey-soft);
+  padding: 10px 14px;
+  font-family: inherit;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.card__media {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card__body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card__footer {
+  padding: 16px 20px 20px;
+}
+
+.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 20px rgba(15, 118, 110, 0.25);
+}
+
+.btn--gold {
+  background: var(--gold);
+  color: #1f1f1f;
+  border: 1px solid var(--gold-strong);
+  box-shadow: 0 12px 24px rgba(185, 138, 28, 0.22);
+}
+
+.btn--gold:hover {
+  background: var(--gold-strong);
+  color: #ffffff;
+}
+
+
+
+
+.btn:hover {
+  transform: translateY(-2px);
+  background: var(--accent-strong);
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--grey-soft);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.field input,
+.field textarea,
+.field select {
+  padding: 12px 14px;
+  border: 1px solid var(--grey-soft);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--surface-muted);
+}
+
+.detail {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.detail__media {
+  width: 100%;
+  height: 240px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--grey-soft);
+  background: var(--surface-muted);
+}
+
+.detail__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail__purchase {
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+}
+
+.ticket {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+}
+
+.ticket__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  background: var(--surface-muted);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--grey-soft);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer {
+  padding: 32px 24px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.footer__links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--gold-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 720px) {
+  .nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .hero__search {
+    flex-direction: column;
+    border-radius: 18px;
+  }
+
+  .hero__search .btn {
+    width: 100%;
+  }
+
+
+
+
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <header class="nav">
+      <div class="nav__brand">GETTICKET</div>
+      <nav class="nav__links">
+        <a href="#/">Home</a>
+        <a href="#/events">Events</a>
+        <a href="#/create">Create Event</a>
+        <a href="#/tickets">My Tickets</a>
+        <a href="#/admin" id="adminLink" class="hidden">Admin</a>
+        <a href="#/login" id="loginLink">Login</a>
+        <button id="logoutBtn" class="btn btn--gold hidden" type="button">Logout</button>
+      </nav>
+    </header>
+
+    <main id="app" class="page"></main>
+
+    <footer class="footer">
+      <div>
+        <strong>GETTICKET</strong>
+        <p class="muted">Premium ticketing for events, venues, and communities.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#/">Home</a>
+        <a href="#/events">Events</a>
+        <a href="#/create">Create Event</a>
+      </div>
+    </footer>
+
+    <script>
+const API_BASE = window.API_BASE || "http://localhost:8000";
+
+const demoEvents = [
+  {
+    id: 201,
+    title: "Midnight City Sessions",
+    description: "A rooftop mix of Afrohouse, R&B, and live sax.",
+    image_url: "/event-placeholder.svg",
+    location: "Westlands Sky Lounge",
+    start_time: "2026-07-12T18:30:00Z"
+  },
+  {
+    id: 202,
+    title: "Nairobi Art & Food Fest",
+    description: "A curated pop-up of chefs, designers, and live murals.",
+    image_url: "/event-placeholder.svg",
+    location: "The Alchemist Yard",
+    start_time: "2026-07-26T10:00:00Z"
+  },
+  {
+    id: 203,
+    title: "Coastal Glow Festival",
+    description: "Sunset sets, bonfire lounges, and artisan markets.",
+    image_url: "/event-placeholder.svg",
+    location: "Nyali Beach",
+    start_time: "2026-08-09T14:00:00Z"
+  }
+];
+
+const $app = document.getElementById("app");
+const $adminLink = document.getElementById("adminLink");
+const $loginLink = document.getElementById("loginLink");
+const $logoutBtn = document.getElementById("logoutBtn");
+
+function getToken() {
+  return localStorage.getItem("auth_token");
+}
+
+function setToken(token) {
+  if (token) {
+    localStorage.setItem("auth_token", token);
+  } else {
+    localStorage.removeItem("auth_token");
+  }
+}
+
+async function apiFetch(path, options = {}) {
+  const headers = options.headers || {};
+  headers["Content-Type"] = "application/json";
+  const token = getToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  const response = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || "Request failed");
+  }
+  return response.json();
+}
+
+function showAdminLink(isAdmin) {
+  $adminLink.classList.toggle("hidden", !isAdmin);
+  $loginLink.classList.toggle("hidden", Boolean(getToken()));
+  $logoutBtn.classList.toggle("hidden", !getToken());
+}
+
+async function loadProfile() {
+  if (!getToken()) {
+    showAdminLink(false);
+    return;
+  }
+  try {
+    const profile = await apiFetch("/auth/me");
+    showAdminLink(Boolean(profile.is_admin));
+  } catch {
+    showAdminLink(false);
+  }
+}
+
+function setRoute(hash) {
+  if (!hash || hash === "#") {
+    window.location.hash = "#/";
+  }
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleString();
+}
+
+function heroTemplate() {
+  return `
+    <section class="hero">
+      <div class="hero__content">
+        <p class="hero__kicker">GETTICKET - Premium event experiences</p>
+        <h1>Discover unforgettable events and book tickets in seconds.</h1>
+        <p class="muted">A polished ticketing experience for creators, venues, and guests.</p>
+        <div class="hero__actions">
+          <a class="btn" href="#/events">Browse events</a>
+          <a class="btn btn--gold" href="#/create">Create an event</a>
+        </div>
+        <form class="hero__search" id="searchForm">
+          <input type="search" id="searchInput" placeholder="Search events, venues, or genres" />
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="hero__panel">
+        <div class="hero__card">
+          <span class="label">Next up</span>
+          <h3>Midnight City Sessions</h3>
+          <p class="muted">Westlands Sky Lounge</p>
+          <div class="hero__stat">
+            <span>Tickets sold</span>
+            <strong>1,248</strong>
+          </div>
+        </div>
+        <div class="hero__highlight">
+          <span class="label">Live check-ins</span>
+          <strong>+92 in the last hour</strong>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function sectionWrapper(title, subtitle, content, action = "") {
+  return `
+    <section class="section">
+      <div class="section__header">
+        <div>
+          <h2>${title}</h2>
+          <p class="muted">${subtitle}</p>
+        </div>
+        ${action}
+      </div>
+      ${content}
+    </section>
+  `;
+}
+
+function eventCard(event) {
+  return `
+    <article class="card">
+      <div class="card__media">
+        <img src="${event.image_url || "/event-placeholder.svg"}" alt="${event.title}" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <h3>${event.title}</h3>
+        <p class="muted">${event.location || "Location TBD"} · ${new Date(event.start_time).toLocaleDateString()}</p>
+        <p class="clamp">${event.description || "No description yet."}</p>
+      </div>
+      <div class="card__footer">
+        <a class="btn btn--gold" href="#/event?id=${event.id}">View Details</a>
+      </div>
+    </article>
+  `;
+}
+
+async function renderHome() {
+  let events = [];
+  try {
+    const data = await apiFetch("/events?page=1&page_size=6");
+    events = data.items?.length ? data.items : demoEvents;
+  } catch {
+    events = demoEvents;
+  }
+  const featured = events.slice(0, 3).map(eventCard).join("");
+  const categories = ["Afrohouse", "Live Band", "Food & Culture", "Comedy", "Networking", "Festival", "Tech Meetups", "Art Show"]
+    .map((item) => `<span class="chip">${item}</span>`)
+    .join("");
+  const artists = [
+    { name: "DJ Nia", genre: "Afrohouse" },
+    { name: "The Drift", genre: "Alt-pop" },
+    { name: "Nairobits Collective", genre: "Live Band" },
+    { name: "Musa & Co.", genre: "Soul" }
+  ]
+    .map(
+      (artist) => `
+      <div class="artist-card">
+        <div class="artist-card__avatar">${artist.name.slice(0, 1)}</div>
+        <div>
+          <h3>${artist.name}</h3>
+          <p class="muted">${artist.genre}</p>
+        </div>
+      </div>`
+    )
+    .join("");
+  const testimonials = [
+    {
+      quote: "The smoothest ticketing flow we've used. Guests checked in in seconds.",
+      author: "Lydia M.",
+      role: "Event Producer"
+    },
+    {
+      quote: "Payments were instant and the admin dashboard kept our team aligned.",
+      author: "Kevin O.",
+      role: "Venue Manager"
+    },
+    {
+      quote: "Beautiful experience on mobile. Our audience loved the QR tickets.",
+      author: "Faith W.",
+      role: "Community Lead"
+    }
+  ]
+    .map(
+      (item) => `
+      <div class="testimonial">
+        <p>“${item.quote}”</p>
+        <div>
+          <strong>${item.author}</strong>
+          <span class="muted">${item.role}</span>
+        </div>
+      </div>`
+    )
+    .join("");
+
+  $app.innerHTML = `
+    ${heroTemplate()}
+    ${sectionWrapper("Featured events", "Curated experiences with premium venues and trusted organizers.", `<div class="grid">${featured}</div>`, '<a class="btn btn--gold" href="#/events">View all</a>')}
+    ${sectionWrapper("Browse by category", "Find the vibe that matches your mood.", `<div class="chips">${categories}</div>`)}
+    ${sectionWrapper("Popular performers", "Follow the artists and collectives guests are talking about.", `<div class="artist-grid">${artists}</div>`)}
+    ${sectionWrapper("How it works", "From creation to check-in in three simple steps.", `
+      <div class="steps">
+        <div class="step"><span class="label">01</span><h3>Create</h3><p class="muted">Set event details, ticket tiers, and your M-Pesa till in minutes.</p></div>
+        <div class="step"><span class="label">02</span><h3>Sell</h3><p class="muted">Guests pay via STK push and receive QR tickets instantly.</p></div>
+        <div class="step"><span class="label">03</span><h3>Check-in</h3><p class="muted">Scan tickets live and track attendance in real time.</p></div>
+      </div>
+    `)}
+    ${sectionWrapper("What teams say", "Trusted by event producers, venues, and communities.", `<div class="testimonial-grid">${testimonials}</div>`)}
+    <section class="section">
+      <div class="cta">
+        <div>
+          <h2>Stay in the loop</h2>
+          <p class="muted">Get early access to featured events and organizer insights.</p>
+        </div>
+        <form class="cta__form">
+          <input type="email" placeholder="you@example.com" />
+          <button class="btn" type="submit">Join newsletter</button>
+        </form>
+      </div>
+    </section>
+  `;
+
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchInput");
+  if (searchForm) {
+    searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const term = searchInput.value.trim();
+      window.location.hash = `#/events?search=${encodeURIComponent(term)}`;
+    });
+  }
+}
+
+async function renderEvents() {
+  let events = [];
+  try {
+    const data = await apiFetch("/events?page=1&page_size=12");
+    events = data.items?.length ? data.items : demoEvents;
+  } catch {
+    events = demoEvents;
+  }
+  const params = new URLSearchParams(window.location.hash.split("?")[1]);
+  const term = (params.get("search") || "").toLowerCase();
+  const filtered = term
+    ? events.filter((event) => `${event.title} ${event.location || ""} ${event.description || ""}`.toLowerCase().includes(term))
+    : events;
+
+  $app.innerHTML = `
+    <div class="page__header">
+      <div>
+        <h1>Events</h1>
+        <p class="muted">Browse the latest experiences.</p>
+      </div>
+    </div>
+    <div class="grid">${filtered.map(eventCard).join("")}</div>
+  `;
+}
+
+async function renderEventDetail(id) {
+  try {
+    const event = await apiFetch(`/events/${id}`);
+    const ticketTypes = await apiFetch(`/events/${id}/ticket-types`);
+    $app.innerHTML = `
+      <div class="page__header">
+        <div>
+          <h1>${event.title}</h1>
+          <p class="muted">${event.location || "Location TBD"} · ${formatDate(event.start_time)}</p>
+        </div>
+      </div>
+      <div class="detail">
+        <div class="detail__info">
+          <div class="detail__media"><img src="${event.image_url || "/event-placeholder.svg"}" alt="${event.title}" /></div>
+          <h3>About the event</h3>
+          <p>${event.description || "No description provided."}</p>
+        </div>
+        <div class="detail__purchase">
+          <h3>Get your ticket</h3>
+          <label class="field">
+            Ticket type
+            <select id="ticketTypeSelect">
+              ${ticketTypes.map((type) => `<option value="${type.id}">${type.name} · KES ${type.price_kes}</option>`).join("")}
+            </select>
+          </label>
+          <label class="field">
+            M-Pesa phone number
+            <input id="ticketPhone" placeholder="2547XXXXXXXX" />
+          </label>
+          <label class="field">
+            Email (optional)
+            <input id="ticketEmail" placeholder="you@example.com" />
+          </label>
+          <button class="btn" id="buyTicketBtn">Pay with M-Pesa (STK Push)</button>
+          <p class="muted" id="ticketMessage"></p>
+        </div>
+      </div>
+    `;
+    document.getElementById("buyTicketBtn").addEventListener("click", async () => {
+      const ticketTypeId = document.getElementById("ticketTypeSelect").value;
+      const phone = document.getElementById("ticketPhone").value;
+      const email = document.getElementById("ticketEmail").value;
+      const message = document.getElementById("ticketMessage");
+      message.textContent = "Processing payment...";
+      try {
+        const response = await apiFetch("/payments/stk-push", {
+          method: "POST",
+          body: JSON.stringify({ event_id: Number(id), ticket_type_id: Number(ticketTypeId), phone })
+        });
+        if (response.ticket?.id && response.ticket?.code) {
+          localStorage.setItem(`ticket_code_${response.ticket.id}`, response.ticket.code);
+        }
+        if (email) {
+          await apiFetch(`/tickets/${response.ticket.id}/deliver?code=${response.ticket.code}`, {
+            method: "POST",
+            body: JSON.stringify({ phone, email })
+          });
+        }
+        message.textContent = "Payment initiated. Check your phone to approve.";
+      } catch (error) {
+        message.textContent = "Payment failed. Please try again.";
+      }
+    });
+  } catch {
+    $app.innerHTML = `<p class="muted">Event not found.</p>`;
+  }
+}
+
+async function renderCreateEvent() {
+  $app.innerHTML = `
+    <div class="page__header">
+      <h1>Create event</h1>
+    </div>
+    <form class="form" id="createEventForm">
+      <label class="field">Title<input name="title" required /></label>
+      <label class="field">Description<textarea name="description" rows="4"></textarea></label>
+      <label class="field">Image URL<input name="image_url" placeholder="https://..." /></label>
+      <label class="field">Location<input name="location" /></label>
+      <label class="field">Start time<input type="datetime-local" name="start_time" required /></label>
+      <label class="field">End time<input type="datetime-local" name="end_time" required /></label>
+      <button class="btn" type="submit">Create event</button>
+      <p class="muted" id="createMessage"></p>
+    </form>
+  `;
+
+  const form = document.getElementById("createEventForm");
+  const message = document.getElementById("createMessage");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      await apiFetch("/events", {
+        method: "POST",
+        body: JSON.stringify({
+          ...data,
+          start_time: new Date(data.start_time).toISOString(),
+          end_time: new Date(data.end_time).toISOString()
+        })
+      });
+      message.textContent = "Event created.";
+      form.reset();
+    } catch (error) {
+      message.textContent = "Creation failed. Login required.";
+    }
+  });
+}
+
+async function renderLogin() {
+  $app.innerHTML = `
+    <div class="page__header"><h1>Login</h1></div>
+    <form class="form" id="loginForm">
+      <label class="field">Email<input name="email" type="email" required /></label>
+      <label class="field">Password<input name="password" type="password" required /></label>
+      <button class="btn" type="submit">Login</button>
+      <p class="muted" id="loginMessage"></p>
+    </form>
+    <p class="muted">No account? <a href="#/register">Register</a></p>
+  `;
+  const form = document.getElementById("loginForm");
+  const message = document.getElementById("loginMessage");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const response = await apiFetch("/auth/login", { method: "POST", body: JSON.stringify(data) });
+      setToken(response.access_token);
+      await loadProfile();
+      window.location.hash = "#/";
+    } catch (error) {
+      message.textContent = "Login failed.";
+    }
+  });
+}
+
+async function renderRegister() {
+  $app.innerHTML = `
+    <div class="page__header"><h1>Register</h1></div>
+    <form class="form" id="registerForm">
+      <label class="field">Email<input name="email" type="email" required /></label>
+      <label class="field">Password<input name="password" type="password" required /></label>
+      <button class="btn" type="submit">Register</button>
+      <p class="muted" id="registerMessage"></p>
+    </form>
+  `;
+  const form = document.getElementById("registerForm");
+  const message = document.getElementById("registerMessage");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      await apiFetch("/auth/register", { method: "POST", body: JSON.stringify(data) });
+      message.textContent = "Registration successful. Login now.";
+    } catch (error) {
+      message.textContent = "Registration failed.";
+    }
+  });
+}
+
+async function renderTickets() {
+  if (!getToken()) {
+    $app.innerHTML = `<p class="muted">Login required to view tickets.</p>`;
+    return;
+  }
+  try {
+    const data = await apiFetch("/tickets/me?page=1&page_size=12");
+    $app.innerHTML = `
+      <div class="page__header">
+        <h1>My Tickets</h1>
+      </div>
+      <div class="grid">${data.items
+        .map(
+          (ticket) => `
+        <article class="card">
+          <div class="card__body">
+            <h3>Ticket #${ticket.id}</h3>
+            <p class="muted">Status: ${ticket.status}</p>
+          </div>
+          <div class="card__footer">
+            <a class="btn btn--gold" href="#/ticket?id=${ticket.id}">View ticket</a>
+          </div>
+        </article>`
+        )
+        .join("")}</div>
+    `;
+  } catch {
+    $app.innerHTML = `<p class="muted">Unable to load tickets.</p>`;
+  }
+}
+
+async function renderTicketDetail(id) {
+  const code = localStorage.getItem(`ticket_code_${id}`);
+  let ticket;
+  try {
+    if (getToken()) {
+      ticket = await apiFetch(`/tickets/${id}`);
+    } else if (code) {
+      ticket = await apiFetch(`/tickets/public/${id}?code=${encodeURIComponent(code)}`);
+    }
+  } catch {
+    ticket = null;
+  }
+  if (!ticket) {
+    $app.innerHTML = `
+      <p class="muted">Enter your ticket code to view the ticket.</p>
+      <form class="form" id="ticketLookup">
+        <label class="field">Ticket code<input name="code" /></label>
+        <button class="btn" type="submit">Load ticket</button>
+      </form>
+    `;
+    document.getElementById("ticketLookup").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const input = event.target.elements.code.value;
+      try {
+        const data = await apiFetch(`/tickets/public/${id}?code=${encodeURIComponent(input)}`);
+        localStorage.setItem(`ticket_code_${id}`, input);
+        renderTicketDetail(id);
+      } catch {
+        alert("Ticket not found.");
+      }
+    });
+    return;
+  }
+  $app.innerHTML = `
+    <div class="page__header">
+      <div>
+        <h1>Ticket #${ticket.id}</h1>
+        <p class="muted">Status: ${ticket.status}</p>
+      </div>
+      <button class="btn" onclick="window.print()">Print ticket</button>
+    </div>
+    <div class="ticket">
+      <div class="ticket__qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${ticket.code}" alt="QR" />
+        <p class="muted">Scan at entry</p>
+      </div>
+      <div class="ticket__info">
+        <h2>${ticket.event?.title || "Event"}</h2>
+        <p class="muted">${ticket.event?.location || "Location TBD"}</p>
+        <div class="info-grid">
+          <div><span class="label">Ticket type</span><span>${ticket.ticket_type?.name || ""}</span></div>
+          <div><span class="label">Code</span><span>${ticket.code}</span></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function renderAdmin() {
+  if (!getToken()) {
+    $app.innerHTML = `<p class="muted">Admin login required.</p>`;
+    return;
+  }
+  try {
+    const overview = await apiFetch("/admin/overview");
+    $app.innerHTML = `
+      <div class="page__header">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p class="muted">Operational overview and recent activity.</p>
+        </div>
+      </div>
+      <div class="admin-grid">
+        <article class="stat-card"><span class="label">Total events</span><h3>${overview.total_events}</h3></article>
+        <article class="stat-card"><span class="label">Tickets issued</span><h3>${overview.total_tickets}</h3></article>
+        <article class="stat-card"><span class="label">Paid tickets</span><h3>${overview.paid_tickets}</h3></article>
+        <article class="stat-card"><span class="label">Check-ins</span><h3>${overview.checked_in}</h3></article>
+        <article class="stat-card"><span class="label">Revenue (KES)</span><h3>${overview.total_revenue_kes}</h3></article>
+      </div>
+    `;
+  } catch {
+    $app.innerHTML = `<p class="muted">Admin access required.</p>`;
+  }
+}
+
+function parseRoute() {
+  const [hash, queryString] = window.location.hash.split("?");
+  const params = new URLSearchParams(queryString || "");
+  return { hash: hash || "#/", params };
+}
+
+async function router() {
+  const { hash, params } = parseRoute();
+  if (hash === "#/" || hash === "") return renderHome();
+  if (hash === "#/events") return renderEvents();
+  if (hash === "#/event") return renderEventDetail(params.get("id"));
+  if (hash === "#/create") return renderCreateEvent();
+  if (hash === "#/tickets") return renderTickets();
+  if (hash === "#/ticket") return renderTicketDetail(params.get("id"));
+  if (hash === "#/login") return renderLogin();
+  if (hash === "#/register") return renderRegister();
+  if (hash === "#/admin") return renderAdmin();
+  return renderHome();
+}
+
+$logoutBtn.addEventListener("click", () => {
+  setToken(null);
+  showAdminLink(false);
+  window.location.hash = "#/";
+});
+
+window.addEventListener("hashchange", router);
+
+setRoute(window.location.hash);
+loadProfile();
+router();
+    </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

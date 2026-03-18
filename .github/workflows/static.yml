@@ -15,42 +15,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Install
-        run: npm install
-      - name: Fix executable bits
-        run: |
-          chmod +x node_modules/.bin/vite || true
-          chmod +x node_modules/.bin/esbuild || true
-      - name: Build
-        run: node ./node_modules/vite/bin/vite.js build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: frontend/dist
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: frontend
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
