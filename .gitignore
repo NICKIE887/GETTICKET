@@ -1,0 +1,4 @@
+backend-js/node_modules/
+backend-js/uploads/
+backend-js/data.db
+backend-js/.env
